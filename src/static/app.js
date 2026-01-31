@@ -8,6 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const activityInput = document.getElementById("activity");
   const closeRegistrationModal = document.querySelector(".close-modal");
 
+  // Announcement elements
+  const announcementBanner = document.getElementById("announcement-banner");
+  const announcementText = document.getElementById("announcement-text");
+  const dismissButton = document.getElementById("dismiss-announcement");
+
   // Search and filter elements
   const searchInput = document.getElementById("activity-search");
   const searchButton = document.getElementById("search-button");
@@ -860,6 +865,36 @@ document.addEventListener("DOMContentLoaded", () => {
     setDayFilter,
     setTimeRangeFilter,
   };
+
+  // Fetch and display announcement
+  async function loadAnnouncement() {
+    try {
+      // Check if user has dismissed the announcement
+      const dismissed = localStorage.getItem("announcementDismissed");
+      if (dismissed === "true") {
+        return;
+      }
+
+      const response = await fetch("/api/announcement");
+      const data = await response.json();
+
+      if (data.active && data.message) {
+        announcementText.textContent = data.message;
+        announcementBanner.style.display = "block";
+      }
+    } catch (error) {
+      console.error("Error loading announcement:", error);
+    }
+  }
+
+  // Handle announcement dismissal
+  dismissButton.addEventListener("click", () => {
+    announcementBanner.style.display = "none";
+    localStorage.setItem("announcementDismissed", "true");
+  });
+
+  // Initialize announcement
+  loadAnnouncement();
 
   // Initialize app
   checkAuthentication();
