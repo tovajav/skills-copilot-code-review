@@ -2,8 +2,12 @@
 Announcements router for Mergington High School API
 """
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
+import logging
 from ..database import announcements_collection
+
+# Set up logging
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api", tags=["announcements"])
 
@@ -23,5 +27,5 @@ async def get_announcement():
         }
     except Exception as e:
         # Log error but don't expose to frontend
-        print(f"Error retrieving announcement: {e}")
+        logger.error(f"Error retrieving announcement: {e}")
         return {"message": "", "active": False}

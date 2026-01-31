@@ -49,6 +49,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Authentication state
   let currentUser = null;
 
+  // Constants
+  const ANNOUNCEMENT_DISMISSED_KEY = "announcementDismissed";
+
   // Time range mappings for the dropdown
   const timeRanges = {
     morning: { start: "06:00", end: "08:00" }, // Before school hours
@@ -870,7 +873,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function loadAnnouncement() {
     try {
       // Check if user has dismissed the announcement
-      const dismissed = localStorage.getItem("announcementDismissed");
+      const dismissed = localStorage.getItem(ANNOUNCEMENT_DISMISSED_KEY);
       if (dismissed === "true") {
         return;
       }
@@ -888,10 +891,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Handle announcement dismissal
-  dismissButton.addEventListener("click", () => {
-    announcementBanner.style.display = "none";
-    localStorage.setItem("announcementDismissed", "true");
-  });
+  if (dismissButton) {
+    dismissButton.addEventListener("click", () => {
+      announcementBanner.style.display = "none";
+      localStorage.setItem(ANNOUNCEMENT_DISMISSED_KEY, "true");
+    });
+  }
 
   // Initialize announcement
   loadAnnouncement();
