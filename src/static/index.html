@@ -12,9 +12,24 @@
     />
   </head>
   <body>
-    <div class="announcement-banner">
-      📢 Activity registration is open until the end of the month. Register now to secure your spot!
-    </div>
+    <aside
+      id="announcement-banner"
+      class="announcement-banner"
+      role="alert"
+      aria-live="polite"
+      style="display: none;"
+    >
+      <div class="announcement-content">
+        <span id="announcement-text"></span>
+        <button
+          id="dismiss-announcement"
+          class="dismiss-button"
+          aria-label="Dismiss announcement"
+        >
+          ×
+        </button>
+      </div>
+    </aside>
     <header>
       <h1>Mergington High School</h1>
       <h2>Extracurricular Activities</h2>
